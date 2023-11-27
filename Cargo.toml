@@ -1,0 +1,41 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2021"
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+dotenv = "0.15.0"
+log4rs = "1.2.0"
+log = "0.4.20"
+tokio = { version = "1.34.0", features = ["full", "time"] }
+
+[profile.release]
+strip = true        # Automatically strip symbols from the binary.
+opt-level = "z"     # Optimize for size.
+lto = true          # Use Link Time Optimization.
+codegen-units = 1   # Compile the whole crate at once.
+debug = false       # Strip debug symbols from the binary.
+
+[profile.dev]
+debug = true
+
+[target.aarch64-apple-darwin.dependencies]
+reqwest = { version = "0.11.22", features = ["json"]}
+
+[target.x86_64-apple-darwin.dependencies]
+reqwest = { version = "0.11.22", features = ["json"]}
+
+[target.x86_64-pc-windows-gnu.dependencies]
+reqwest = { version = "0.11.22", features = ["json"]}
+
+[target.x86_64-unknown-linux-gnu.dependencies]
+reqwest = { version = "0.11.22", features = ["json", "rustls-tls"], default-features = false }
+
+[target.x86_64-unknown-linux-musl.dependencies]
+reqwest = { version = "0.11.22", features = ["json", "rustls-tls"], default-features = false }
+
+[target.aarch64-unknown-linux-musl.dependencies]
+reqwest = { version = "0.11.22", features = ["json", "rustls-tls"], default-features = false }
